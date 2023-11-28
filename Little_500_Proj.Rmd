@@ -14,6 +14,7 @@ Loading Libraries and Data.
 library(dplyr)
 library(tidyr)
 library(lubridate)
+library(hms)
 
 itt_data = read.csv("Individual_Time_Trials.csv")
 little500_data = read.csv("Little_500_Race.csv")
@@ -96,11 +97,15 @@ Cleaning model data and converting little 500 into seconds.
 ```{r}
 model_data = model_data %>%
   mutate(
-    Finish_Time_Little500 = as.numeric(ms(Finish_Time_Little500)) 
+    Finish_Time_Little500 = as.numeric(parse_hms(Finish_Time_Little500))
   )
+
 
 model_data = model_data %>%
   filter(!is.na(Finish_Time_Qualifications) & !is.na(Avg_ITT_Time) & !is.na(Finish_Time_Team_Pursuit) & !is.na(Finish_Time_Little500))
+
+model_data
+
 ```
 
 Interaction Tests.
